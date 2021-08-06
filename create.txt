@@ -1,0 +1,45 @@
+create (c:City{name:'Nanjing', population: 3000, gdp:10000, numstations:2, stations:'NJ|NJN'})
+
+create (c:City{name:'Suzhou', population: 3000, gdp:10000, numstations:2, stations:'SZ|SZD'})
+
+create (c:City{name:'Kunshan', population: 300, gdp:1000, numstations:2, stations:'KS|KSN'})
+
+create (c:City{name:'Shanghai', population: 30000000, gdp:10000000000, numstations:3, stations:'SH|SHN|SHHQ'})
+
+create (t:Train{name:'G256', numstations:10, belong:'ShanghaiRail', traintype:'G'})
+
+match (n:City)
+with n
+match (m:Train)
+where n.name='Nanjing' and m.name='G256'
+create (n)-[through:passthrough{timevalue:'12:25', traveltype:'starto', train:'G256', name:'to', during:'10min'}]->(m)
+
+match (m:Train)
+with m
+match (n:City)
+where n.name='Suzhou' and m.name='G256'
+create (m)-[through:passthrough{timevalue:'12:55', traveltype:'arrive', train:'G256', name:'to', during:'5min'}]->(n)
+
+match (n:City)
+with n
+match (m:Train)
+where n.name='Suzhou' and m.name='G256'
+create (n)-[through:passthrough{timevalue:'13:00', traveltype:'starto', train:'G256', name:'to', during:'5min'}]->(m)
+
+match (m:Train)
+with m
+match (n:City)
+where n.name='Kunshan' and m.name='G256'
+create (m)-[through:passthrough{timevalue:'13:29', traveltype:'arrive', train:'G256', name:'to', during:'3min'}]->(n)
+
+match (n:City)
+with n
+match (m:Train)
+where n.name='Kunshan' and m.name='G256'
+create (n)-[through:passthrough{timevalue:'13:32', traveltype:'starto', train:'G256', name:'to', during:'3min'}]->(m)
+
+match (m:Train)
+with m
+match (n:City)
+where n.name='Shanghai' and m.name='G256'
+create (m)-[through:passthrough{timevalue:'14:35', traveltype:'arrive', train:'G256', name:'to', during:'3min'}]->(n)
